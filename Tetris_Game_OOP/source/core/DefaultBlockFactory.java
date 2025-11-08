@@ -12,14 +12,14 @@ public class DefaultBlockFactory implements BlockFactory {
         int col = Config.COLS / 2 - 2; // bớt 2 để khối 4 ô không bị lệch phải
         int r = RAND.nextInt(7);
         
-        switch (r) {
-            case 0: return new blocks.IBlock(row, col);
-            case 1: return new blocks.JBlock(row, col);
-            case 2: return new blocks.LBlock(row, col);
-            case 3: return new blocks.OBlock(row, col);
-            case 4: return new blocks.SBlock(row, col);
-            case 5: return new blocks.TBlock(row, col);
-            case 6: return new blocks.ZBlock(row, col);
+         switch (RAND.nextInt(7)) {
+            case 0: return new BlockI();
+            case 1: return new BlockO();
+            case 2: return new BlockT();
+            case 3: return new BlockS();
+            case 4: return new BlockZ();
+            case 5: return new BlockJ();
+            default: return new BlockL();
         }
     }
 }   
