@@ -1,6 +1,6 @@
 package core;
 
-import core.Config;
+import core.blocks.*;
 import java.util.Random;
 public class DefaultBlockFactory implements BlockFactory {
     private final Random RAND = new Random();
@@ -11,7 +11,7 @@ public class DefaultBlockFactory implements BlockFactory {
         int row = 0;
         int col = Config.COLS / 2 - 2; // bớt 2 để khối 4 ô không bị lệch phải
         int r = RAND.nextInt(7);
-
+        
         switch (r) {
             case 0: return new blocks.IBlock(row, col);
             case 1: return new blocks.JBlock(row, col);
