@@ -1,0 +1,6 @@
+package core.blocks;
+
+public interface BlockFactory {
+    // chỉ cần 1 hàm này thôi
+    Block createRandom();
+}
