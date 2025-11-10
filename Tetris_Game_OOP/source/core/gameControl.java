@@ -35,7 +35,7 @@ public class gameControl {
         } else {
             board.place(current);
             int cleared = board.clearLines();    // Xóa các hàng đã đầy
-            score.addLines(cleared);             // Cập nhật điểm
+            score.addLinesCleared(cleared);             // Cập nhật điểm
             spawn();
 
             if (!board.canPlace(current)) {
