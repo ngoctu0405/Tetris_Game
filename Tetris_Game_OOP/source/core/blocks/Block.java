@@ -6,7 +6,7 @@ import javafx.scene.paint.Color; // import lớp Color từ JavaFX
 public abstract class Block { // lớp trừu tượng đại diện cho một khối
     protected Position[] tiles; // mảng các ô (vị trí) cấu thành khối
     protected javafx.scene.paint.Color color; // màu của khối
-
+    
     public abstract void rotate(); // phương thức trừu tượng để quay khối
     public void moveDown() { for (var p: tiles) p.row++; } // di chuyển khối xuống: tăng chỉ số hàng của từng ô
     public void moveLeft() { for (var p: tiles) p.col--; } // di chuyển khối sang trái: giảm chỉ số cột của từng ô

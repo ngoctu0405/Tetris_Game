@@ -1,0 +1,16 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Tetris_Game_OOP/lib/javafx.base.jar",
+        "Tetris_Game_OOP/lib/javafx.controls.jar",
+        "Tetris_Game_OOP/lib/javafx.fxml.jar",
+        "Tetris_Game_OOP/lib/javafx.graphics.jar",
+        "Tetris_Game_OOP/lib/javafx.media.jar",
+        "Tetris_Game_OOP/lib/javafx.swing.jar",
+        "Tetris_Game_OOP/lib/javafx.web.jar",
+        "Tetris_Game_OOP/lib/javafx-swt.jar",
+        "Tetris_Game_OOP/lib/jdk.jsobject.jar",
+        "Tetris_Game_OOP/lib/jfx.incubator.input.jar",
+        "Tetris_Game_OOP/lib/jfx.incubator.richtext.jar"
+    ]
+}
