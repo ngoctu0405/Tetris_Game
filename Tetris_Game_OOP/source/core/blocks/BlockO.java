@@ -1,27 +1,19 @@
 package core.blocks;
 
 import core.Position;
-import javafx.scene.paint.Color;
+import java.awt.Color; // <-- ĐÃ SỬA
 
-/**
- * Lớp BlockO đại diện cho khối O (hình vuông 2x2) trong trò chơi.
- */
 public class BlockO extends Block {
     public BlockO() {
-        // Màu của khối O
-        color = Color.GOLD;
-        // Vị trí các ô (tiles) ban đầu của khối O (2 hàng x 2 cột)
+        color = Color.YELLOW; // <-- ĐÃ SỬA (Color.GOLD -> Color.YELLOW)
         tiles = new Position[] { new Position(-1,4), new Position(-1,5), new Position(0,4), new Position(0,5) };
     }
-
-    @Override
-    public void rotate() {
-        // Khối O không cần xoay vì xoay vẫn giữ nguyên hình dạng
-    }
     
-    @Override 
+    @Override public void rotate() { /* O doesn't rotate */ }
+
+    // THÊM HÀM COPY
+    @Override
     public Block copy() {
-        // Tạo một thể hiện mới của BlockO và sao chép trạng thái hiện tại vào đó
         BlockO newBlock = new BlockO();
         newBlock.copyStateFrom(this);
         return newBlock;

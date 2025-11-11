@@ -1,25 +1,28 @@
-package core.blocks; // khai báo package của lớp
+package core.blocks;
 
-import core.Position; // import lớp Position từ package core
-import javafx.scene.paint.Color; // import lớp Color từ JavaFX
+import core.Position;
 
-public abstract class Block { // lớp trừu tượng đại diện cho một khối
-    protected Position[] tiles; // mảng các ô (vị trí) cấu thành khối
-    protected javafx.scene.paint.Color color; // màu của khối
-    
-    public abstract void rotate(); // phương thức trừu tượng để quay khối
-    public void moveDown() { for (var p: tiles) p.row++; } // di chuyển khối xuống: tăng chỉ số hàng của từng ô
-    public void moveLeft() { for (var p: tiles) p.col--; } // di chuyển khối sang trái: giảm chỉ số cột của từng ô
-    public void moveRight(){ for (var p: tiles) p.col++; } // di chuyển khối sang phải: tăng chỉ số cột của từng ô
-    public Position[] getTiles(){ return tiles; } // trả về mảng vị trí các ô của khối
-    public javafx.scene.paint.Color getColor(){ return color; } // trả về màu của khối
-    public abstract Block copy(); // phương thức trừu tượng tạo và trả về một bản sao của khối
+public abstract class Block {
+    protected Position[] tiles;
+    protected java.awt.Color color; // <-- Dùng java.awt.Color
 
-    protected void copyStateFrom(Block source) { // sao chép trạng thái từ khối nguồn vào khối hiện tại
-        this.color = source.color; // sao chép màu
-        this.tiles = new Position[source.tiles.length]; // tạo mảng mới có cùng độ dài
+    public abstract void rotate();
+    public void moveDown() { for (var p: tiles) p.row++; }
+    public void moveLeft() { for (var p: tiles) p.col--; }
+    public void moveRight(){ for (var p: tiles) p.col++; }
+    public Position[] getTiles(){ return tiles; }
+    public java.awt.Color getColor(){ return color; }
+
+    // ======================================================
+    // SỬA LỖI COPY (BUG TỪ CODE CŨ CỦA BẠN)
+    // ======================================================
+    public abstract Block copy();
+
+    protected void copyStateFrom(Block source) {
+        this.color = source.color;
+        this.tiles = new Position[source.tiles.length];
         for (int i = 0; i < source.tiles.length; i++) {
-            this.tiles[i] = source.tiles[i].copy(); // sao chép sâu từng Position để không tham chiếu chung
+            this.tiles[i] = source.tiles[i].copy(); 
         }
     }
 }
