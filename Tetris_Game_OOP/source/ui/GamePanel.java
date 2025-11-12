@@ -2,16 +2,14 @@ package ui;
 
 import core.*;
 import core.blocks.Block;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * Panel chính của game, thay thế Window.java và Render.java
@@ -23,29 +21,19 @@ public class GamePanel extends JPanel {
     private final Runnable onGameOverCallback;
     private Timer gameLoop;
 
-    private JLabel scoreLabel;
-    private JLabel levelLabel;
-    private JLabel linesLabel;
-
     public GamePanel(Runnable onGameOverCallback) {
         this.onGameOverCallback = onGameOverCallback;
         
-        // 1. Khởi tạo các thành phần phụ (HUD)
-        // Trong Swing, chúng ta thêm chúng vào một panel khác (xem TetrisApp)
-        // Ở đây chúng ta sẽ vẽ chúng trực tiếp
-        
-        // 2. Cài đặt Panel
-        // Kích thước của TOÀN BỘ cửa sổ (bao gồm cả HUD bên phải)
+        // Cài đặt Panel
         setPreferredSize(new Dimension(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT));
         setBackground(new Color(11, 11, 11)); // Màu nền (#0b0b0b)
         
-        // 3. Thiết lập lắng nghe phím
-        // Quan trọng: Phải đặt focusable thì mới nhận phím
+        // Thiết lập lắng nghe phím
         setFocusable(true); 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (control.isGameOver()) return;
+                if (control == null || control.isGameOver()) return;
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT: control.moveLeft(); break;
@@ -55,16 +43,14 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_SPACE: control.hardDrop(); break;
                     case KeyEvent.VK_P: /* pause */ break;
                 }
-                // Vẽ lại ngay lập tức sau khi nhấn phím
                 repaint();
             }
         });
 
-        // 4. Khởi tạo Game
+        // Khởi tạo Game
         resetGame();
 
-        // 5. Khởi tạo Game Loop (dùng Swing Timer)
-        // Nó sẽ tự động gọi actionPerformed mỗi 'delayMs'
+        // Khởi tạo Game Loop (dùng Swing Timer)
         gameLoop = new Timer((int)Config.BASE_DELAY_MS, e -> {
             if (control.isGameOver()) {
                 gameLoop.stop();
@@ -74,9 +60,14 @@ public class GamePanel extends JPanel {
             
             control.tick();
             
-            // Cập nhật tốc độ (nếu cần)
-            // int newDelay = ... (dựa trên control.getScore().getLevel())
-            // gameLoop.setDelay(newDelay);
+            // 1. Lấy level hiện tại
+            int currentLevel = control.getScore().getLevel();
+            
+            // 2. SỬA LỖI LOGIC: Đổi 500 thành 50 để tăng tốc từ từ
+            int newDelay = (int) Math.max(Config.BASE_DELAY_MS - (currentLevel * 50), 100);
+            
+            // 3. Cập nhật tốc độ mới cho Timer
+            gameLoop.setDelay(newDelay);
             
             repaint(); // Yêu cầu vẽ lại
         });
@@ -86,7 +77,6 @@ public class GamePanel extends JPanel {
      * Bắt đầu game
      */
     public void startGame() {
-        // Yêu cầu focus để nhận phím
         requestFocusInWindow(); 
         gameLoop.start();
     }
@@ -98,6 +88,8 @@ public class GamePanel extends JPanel {
         this.control = new gameControl(new DefaultBlockFactory());
         if (gameLoop != null) {
             gameLoop.stop();
+            // SỬA LỖI LOGIC: Reset tốc độ Timer về ban đầu
+            gameLoop.setDelay((int)Config.BASE_DELAY_MS);
         }
         repaint();
     }
@@ -111,12 +103,13 @@ public class GamePanel extends JPanel {
 
 
     /**
-     * Hàm vẽ chính - Đây là nơi "Render.java" được thay thế
-     * @param g Đối tượng Graphics (tương đương GraphicsContext)
+     * Hàm vẽ chính
      */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Xóa màn hình với màu nền
+
+        if (control == null) return; 
 
         Board board = control.getBoard();
         Block current = control.getCurrent();
@@ -126,11 +119,9 @@ public class GamePanel extends JPanel {
         for (int r = 0; r < Config.ROWS; r++) {
             for (int c = 0; c < Config.COLS; c++) {
                 if (grid[r][c] != null) {
-                    // Lấy màu từ Cell (đã được đổi sang java.awt.Color)
                     g.setColor(grid[r][c].color);
                     g.fillRect(c * Config.TILE, r * Config.TILE, Config.TILE - 1, Config.TILE - 1);
                 } else {
-                    // Vẽ lưới
                     g.setColor(new Color(34, 34, 34)); // Màu xám (#222)
                     g.drawRect(c * Config.TILE, r * Config.TILE, Config.TILE, Config.TILE);
                 }
@@ -154,7 +145,5 @@ public class GamePanel extends JPanel {
         g.drawString("Score: " + control.getScore().getScore(), hudX, 50);
         g.drawString("Level: " + control.getScore().getLevel(), hudX, 80);
         g.drawString("Lines: " + control.getScore().getLinesCleared(), hudX, 110);
-        
-        // (Bạn có thể vẽ khối "Next" ở đây)
     }
 }
