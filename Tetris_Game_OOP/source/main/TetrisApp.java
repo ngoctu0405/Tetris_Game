@@ -29,7 +29,7 @@ public class TetrisApp extends JFrame {
         highScoreManager = new HighScoreManager();
 
         // 2. Thiết lập Frame (Cửa sổ chính)
-        setTitle("Tetris - JavaSwing");
+        setTitle("Tetris Game OOP");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Thoát khi nhấn X
         setResizable(false);
 
