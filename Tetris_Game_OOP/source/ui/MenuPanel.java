@@ -12,7 +12,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 /**
- * Màn hình Menu chính
+ * Màn hình Menu chính - hiển thị điểm cao nhất và nút bắt đầu trò chơi
  */
 public class MenuPanel extends JPanel {
 

@@ -36,7 +36,7 @@ public abstract class Block {
             p.col++;
     
         }}
-
+            
     // Trả về mảng ô hiện tại (tham chiếu)
     public Position[] getTiles() {
         return tiles;
